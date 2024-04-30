@@ -16,19 +16,33 @@ namespace MedicsAPI.Repository
         public async Task<Users> GetUserByUsername(string username)
         {
             using IDbConnection connection = new NpgsqlConnection(_config.GetConnectionString("DefaultConnection"));
-            return await connection.QueryFirstOrDefaultAsync<Users>("SELECT * FROM users WHERE username = @Username", new { Username = username });
+            return await connection.QueryFirstOrDefaultAsync<Users>("SELECT * FROM users WHERE username = @username", new { username = username });
         }
 
-        public async Task<int> CreateUser(Users user)
+        public async Task<Users> GetUserByEmail(string email)
+        {
+            using IDbConnection connection = new NpgsqlConnection(_config.GetConnectionString("DefaultConnection"));
+            return await connection.QueryFirstOrDefaultAsync<Users>("SELECT * FROM users WHERE email = @email", new { email = email });
+        }
+
+        public async Task<Users> GetUserByPhone(string phone)
+        {
+            using IDbConnection connection = new NpgsqlConnection(_config.GetConnectionString("DefaultConnection"));
+            return await connection.QueryFirstOrDefaultAsync<Users>("SELECT * FROM users WHERE phone = @phone", new { phone = phone });
+        }
+
+        public async Task<Users> CreateUser(Users user)
         {
             try
             {
                 using IDbConnection connection = new NpgsqlConnection(_config.GetConnectionString("DefaultConnection"));
-                string query = "INSERT INTO users (firstname, lastname, email, username, phone, passwordHash, passwordSalt, refUserType, refGender) VALUES (@firstname, @lastname, @email, @username, @phone, @passwordhash, @passwordsalt, @refusertype, @refgender)";
-                return await connection.ExecuteAsync(query, user);
+                string query = "INSERT INTO users (firstname, lastname, email, username, phone, passwordhash, passwordsalt, refusertype, refgender) VALUES (@firstname, @lastname, @email, @username, @phone, @passwordhash, @passwordsalt, @refusertype, @refgender)";
+                await connection.ExecuteAsync(query, user);
+                return user;
             }catch (Exception ex)
             {
-                return 0;
+                Console.WriteLine($"Error in CreateUser method: {ex.Message}");
+                throw;
             }
         }
     }

@@ -11,7 +11,6 @@ namespace MedicsAPI.Controllers
         public IActionResult Get()
         {
             return Ok("Hi there! This is a controller.");
-
         }
     }
 }

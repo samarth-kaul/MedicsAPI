@@ -5,7 +5,9 @@ namespace MedicsAPI.Repository
     public interface IUserRepository
     {
         public Task<Users> GetUserByUsername(string username);
-        public Task<int> CreateUser(Users user);
+        public Task<Users> GetUserByEmail(string email);
+        public Task<Users> GetUserByPhone(string phone);
+        public Task<Users> CreateUser(Users user);
 
     }
 }

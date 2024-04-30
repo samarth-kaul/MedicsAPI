@@ -1,4 +1,6 @@
 using MedicsAPI.Repository;
+using MedicsAPI.Repository.Doctor_Repo;
+using MedicsAPI.Repository.Patient_Repo;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddTransient<IDoctorRepository, DoctorRepository>();
+builder.Services.AddTransient<IPatientRepository, PatientRepository>();
+
 
 var app = builder.Build();
 
