@@ -28,11 +28,11 @@ namespace MedicsAPI.Controllers
             try
             {
                 var existingUsername = await _userRepository.GetUserByUsername(user.username);
-                var existingEmail = await _userRepository.GetUserByUsername(user.username);
-                var exisitngPhone = await _userRepository.GetUserByUsername(user.username);
+                var existingEmail = await _userRepository.GetUserByEmail(user.email);
+                var exisitngPhone = await _userRepository.GetUserByPhone(user.phone);
 
 
-                if (existingUsername != null || existingEmail != null || exisitngPhone != null)
+                if (existingUsername != null)
                 {
                     return BadRequest("A user with the same username already exists.");
                 }
@@ -70,22 +70,22 @@ namespace MedicsAPI.Controllers
                     if(res.refusertype == 1)
                     {
                         // this means the user is a patient
-                        var addPatient = new Patient
+                        var patient = new Patient
                         {
                             refuser = res.id,
                             code = GenerateUniqueCode("Patient", res.id)
                         };
-                        await _patientRepository.CreatePatient(addPatient);
+                        await _patientRepository.CreatePatient(patient);
                     }
                     else if (res.refusertype == 2)
                     {
                         // this means the user is a doctor
-                        var addDoctor = new Doctor
+                        var doctor = new Doctor
                         {
                             refuser = res.id,
                             code = GenerateUniqueCode("Doctor", res.id)
                         };
-                        await _doctorRepository.CreateDoctor(addDoctor);
+                        await _doctorRepository.CreateDoctor(doctor);
                     }
 
                     return Ok("User created succefully");
@@ -125,13 +125,12 @@ namespace MedicsAPI.Controllers
 
         private string GenerateUniqueCode(string userType, int userId)
         {
-            // Get the prefix based on the user type
+            
             string prefix = userType == "Doctor" ? "MD" : "MP";
 
-            // Extract a portion of the user ID (for example, the last 3 digits)
+            
             string idSuffix = userId.ToString().Substring(Math.Max(0, userId.ToString().Length - 3));
 
-            // Combine the prefix and the extracted portion of the user ID to form the unique code
             string uniqueCode = prefix + idSuffix.PadLeft(3, '0'); // Pad left with zeros to ensure consistent length
 
             return uniqueCode;

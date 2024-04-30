@@ -36,10 +36,13 @@ namespace MedicsAPI.Repository
             try
             {
                 using IDbConnection connection = new NpgsqlConnection(_config.GetConnectionString("DefaultConnection"));
-                string query = "INSERT INTO users (firstname, lastname, email, username, phone, passwordhash, passwordsalt, refusertype, refgender) VALUES (@firstname, @lastname, @email, @username, @phone, @passwordhash, @passwordsalt, @refusertype, @refgender)";
-                await connection.ExecuteAsync(query, user);
+                string query = "INSERT INTO users (firstname, lastname, email, username, phone, passwordhash, passwordsalt, refusertype, refgender) VALUES (@firstname, @lastname, @email, @username, @phone, @passwordhash, @passwordsalt, @refusertype, @refgender) " +
+                    "RETURNING id";
+                var test = await connection.ExecuteScalarAsync(query, user);
+                if (test != null) user.id = Convert.ToInt32(test);
                 return user;
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 Console.WriteLine($"Error in CreateUser method: {ex.Message}");
                 throw;

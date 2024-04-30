@@ -21,3 +21,39 @@ namespace MedicsAPI.Repository.Doctor_Repo
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Get the prefix based on the user type
+// Extract a portion of the user ID (for example, the last 3 digits)
+// Combine the prefix and the extracted portion of the user ID to form the unique code
