@@ -13,22 +13,60 @@ namespace MedicsAPI.Repository
         {
             _config = config;
         }
+
+        public async Task<IEnumerable<Users>> GetUsersByUsertype(UserType userType)
+        {
+            try
+            {
+                using IDbConnection connection = new NpgsqlConnection(_config.GetConnectionString("DefaultConnection"));
+                return await connection.QueryAsync<Users>("SELECT * FROM users WHERE refusertype = @refusertype", new { refusertype = userType });
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine($"Error in UpdateUser method: {ex.Message}");
+                throw;
+            }
+        }
         public async Task<Users> GetUserByUsername(string username)
         {
-            using IDbConnection connection = new NpgsqlConnection(_config.GetConnectionString("DefaultConnection"));
-            return await connection.QueryFirstOrDefaultAsync<Users>("SELECT * FROM users WHERE username = @username", new { username = username });
+            try
+            { 
+                using IDbConnection connection = new NpgsqlConnection(_config.GetConnectionString("DefaultConnection"));
+                return await connection.QueryFirstOrDefaultAsync<Users>("SELECT * FROM users WHERE username = @username", new { username = username });
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine($"Error in UpdateUser method: {ex.Message}");
+                throw;
+            }
         }
 
         public async Task<Users> GetUserByEmail(string email)
         {
-            using IDbConnection connection = new NpgsqlConnection(_config.GetConnectionString("DefaultConnection"));
-            return await connection.QueryFirstOrDefaultAsync<Users>("SELECT * FROM users WHERE email = @email", new { email = email });
+            try
+            {
+                using IDbConnection connection = new NpgsqlConnection(_config.GetConnectionString("DefaultConnection"));
+                return await connection.QueryFirstOrDefaultAsync<Users>("SELECT * FROM users WHERE email = @email", new { email = email });
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine($"Error in UpdateUser method: {ex.Message}");
+                throw;
+            }
         }
 
         public async Task<Users> GetUserByPhone(string phone)
         {
-            using IDbConnection connection = new NpgsqlConnection(_config.GetConnectionString("DefaultConnection"));
-            return await connection.QueryFirstOrDefaultAsync<Users>("SELECT * FROM users WHERE phone = @phone", new { phone = phone });
+            try
+            {
+                using IDbConnection connection = new NpgsqlConnection(_config.GetConnectionString("DefaultConnection"));
+                return await connection.QueryFirstOrDefaultAsync<Users>("SELECT * FROM users WHERE phone = @phone", new { phone = phone });
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine($"Error in UpdateUser method: {ex.Message}");
+                throw;
+            }
         }
 
         public async Task<Users> CreateUser(Users user)

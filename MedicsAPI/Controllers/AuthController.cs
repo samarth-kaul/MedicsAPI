@@ -94,7 +94,8 @@ namespace MedicsAPI.Controllers
                 {
                     return BadRequest("Error creating user");
                 }
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 return StatusCode(500, $"An error occured: {ex.Message}");
             }
@@ -111,7 +112,8 @@ namespace MedicsAPI.Controllers
                     return BadRequest("This username does not exist.");
                 }
                 return Ok($"User logged in successfully, {existingUsername.username}");
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 return StatusCode(500, $"An error occured: {ex.Message}");
             }

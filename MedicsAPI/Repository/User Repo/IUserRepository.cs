@@ -8,6 +8,7 @@ namespace MedicsAPI.Repository
         public Task<Users> GetUserByEmail(string email);
         public Task<Users> GetUserByPhone(string phone);
         public Task<Users> CreateUser(Users user);
+        public Task<IEnumerable<Users>> GetUsersByUsertype(UserType userType);
 
     }
 }

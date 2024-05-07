@@ -4,7 +4,7 @@
         public class Doctor
         {
             public int id { get; set; }
-        public string code { get; set; } = string.Empty;
+            public string code { get; set; } = string.Empty;
             public required int refuser { get; set; } 
             public byte[] picture { get; set; }
             public string education { get; set; } = string.Empty;
